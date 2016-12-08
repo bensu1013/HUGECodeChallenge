@@ -18,8 +18,6 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.view.backgroundColor = UIColor.generateRandomColor()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -52,12 +50,6 @@ class MainViewController: UIViewController {
                     
                     self.textField.text = ""
                     
-                    DispatchQueue.main.async {
-                        
-                        self.performSegue(withIdentifier: "graphViewSegue", sender: nil)
-                        
-                    }
-                    
                 })
                 
             } else {
@@ -79,6 +71,13 @@ class MainViewController: UIViewController {
         self.textField.text = ""
         
     }
+    
+    @IBAction func showGraphButtonAction(_ sender: UIButton) {
+        
+        self.performSegue(withIdentifier: "graphViewSegue", sender: nil)
+        
+    }
+    
     
     func createAlert(withTitle: String, andMsg: String) -> UIAlertController {
         

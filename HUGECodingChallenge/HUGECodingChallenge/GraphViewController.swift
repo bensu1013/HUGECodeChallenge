@@ -16,10 +16,14 @@ class GraphViewController: UIViewController {
     @IBOutlet weak var jpyLabel: UILabel!
     @IBOutlet weak var brlLabel: UILabel!
     
-    @IBOutlet weak var zeroAmountLabel: UILabel!
-    @IBOutlet weak var lowAmountLabel: UILabel!
-    @IBOutlet weak var midAmountLabel: UILabel!
+    @IBOutlet weak var maxAmountLabel: UILabel!
     @IBOutlet weak var highAmountLabel: UILabel!
+    @IBOutlet weak var dAmountLabel: UILabel!
+    @IBOutlet weak var cAmountLabel: UILabel!
+    @IBOutlet weak var bAmountLabel: UILabel!
+    @IBOutlet weak var aAmountLabel: UILabel!
+    @IBOutlet weak var lowAmountLabel: UILabel!
+    @IBOutlet weak var minAmountLabel: UILabel!
     
     @IBOutlet weak var graphView: UIView!
     
@@ -29,6 +33,8 @@ class GraphViewController: UIViewController {
     let jpyGraph = UIView()
     let brlGraph = UIView()
     
+    let graphSeperator = UIView()
+    
     var exchangeRates = [String : Double]()
     var exchangeAmounts = [String : Double]()
     var inputAmount: Double = 0
@@ -36,17 +42,16 @@ class GraphViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.exchangeAmounts = populateExchangeAmounts(rates: exchangeRates)
         self.fillTextOfExchangeLabels()
         self.calculateForGraphLabels()
-        self.setupGraphSubviews()
+        
 
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+        self.setupGraphSubviews()
         self.animateGraphView()
 
     }
@@ -91,10 +96,14 @@ extension GraphViewController {
     
     func calculateForGraphLabels() {
         
-        highAmountLabel.text = "\(highestExchange)"
-        midAmountLabel.text = "\(DataModel.changeDoubleToMoney(amount: highestExchange * 0.05))"
-        lowAmountLabel.text = "\(inputAmount)"
-        zeroAmountLabel.text = "0.00"
+        maxAmountLabel.text = "\(120 * inputAmount)"
+        highAmountLabel.text = "\(110 * inputAmount)"
+        dAmountLabel.text = "\(100 * inputAmount)"
+        cAmountLabel.text = "\(4 * inputAmount)"
+        bAmountLabel.text = "\(3 * inputAmount)"
+        aAmountLabel.text = "\(2 * inputAmount)"
+        lowAmountLabel.text = "\(1 * inputAmount)"
+        minAmountLabel.text = "\(0)"
         
     }
     
@@ -128,11 +137,13 @@ extension GraphViewController {
         eurGraph.backgroundColor = UIColor.generateRandomColor()
         jpyGraph.backgroundColor = UIColor.generateRandomColor()
         brlGraph.backgroundColor = UIColor.generateRandomColor()
+        graphSeperator.backgroundColor = UIColor.darkGray
         graphView.addSubview(usdGraph)
         graphView.addSubview(gbpGraph)
         graphView.addSubview(eurGraph)
         graphView.addSubview(jpyGraph)
         graphView.addSubview(brlGraph)
+        graphView.addSubview(graphSeperator)
         
     }
     
@@ -143,6 +154,7 @@ extension GraphViewController {
         eurGraph.frame = CGRect(x: graphView.bounds.width * 0.41, y: graphView.bounds.height, width: graphView.bounds.width * 0.17, height: 0.0)
         jpyGraph.frame = CGRect(x: graphView.bounds.width * 0.60, y: graphView.bounds.height, width: graphView.bounds.width * 0.17, height: 0.0)
         brlGraph.frame = CGRect(x: graphView.bounds.width * 0.79, y: graphView.bounds.height, width: graphView.bounds.width * 0.17, height: 0.0)
+        graphSeperator.frame = CGRect(x: 0, y: graphView.bounds.height / 7 * 2, width: graphView.bounds.width, height: 2)
         
     }
     
@@ -155,19 +167,51 @@ extension GraphViewController {
         
         UIView.animate(withDuration: 0.5, animations: {
             
-            self.usdGraph.frame = CGRect(x: self.graphView.bounds.width * 0.03, y: self.graphView.bounds.height * 0.66, width: self.graphView.bounds.width * 0.17, height: self.graphView.bounds.height * 0.33)
-            self.gbpGraph.frame = CGRect(x: self.graphView.bounds.width * 0.22, y: self.graphView.bounds.height * 0.66, width: self.graphView.bounds.width * 0.17, height: self.graphView.bounds.height * 0.33)
-            self.eurGraph.frame = CGRect(x: self.graphView.bounds.width * 0.41, y: self.graphView.bounds.height * 0.66, width: self.graphView.bounds.width * 0.17, height: self.graphView.bounds.height * 0.33)
-            self.jpyGraph.frame = CGRect(x: self.graphView.bounds.width * 0.60, y: self.graphView.bounds.height * 0.0, width: self.graphView.bounds.width * 0.17, height: self.graphView.bounds.height)
-            self.brlGraph.frame = CGRect(x: self.graphView.bounds.width * 0.79, y: self.graphView.bounds.height * 0.4, width: self.graphView.bounds.width * 0.17, height: self.graphView.bounds.height * 0.6)
+            self.usdGraph.frame = CGRect(x: self.graphView.bounds.width * 0.03, y: self.graphView.bounds.height - self.getBarHeight(country: .us), width: self.graphView.bounds.width * 0.17, height: self.getBarHeight(country: .us))
+            self.gbpGraph.frame = CGRect(x: self.graphView.bounds.width * 0.22, y: self.graphView.bounds.height - self.getBarHeight(country: .uk), width: self.graphView.bounds.width * 0.17, height: self.getBarHeight(country: .uk))
+            self.eurGraph.frame = CGRect(x: self.graphView.bounds.width * 0.41, y: self.graphView.bounds.height - self.getBarHeight(country: .eu), width: self.graphView.bounds.width * 0.17, height: self.getBarHeight(country: .eu))
+            self.jpyGraph.frame = CGRect(x: self.graphView.bounds.width * 0.60, y: self.graphView.bounds.height - self.getBarHeight(country: .jp), width: self.graphView.bounds.width * 0.17, height: self.getBarHeight(country: .jp))
+            self.brlGraph.frame = CGRect(x: self.graphView.bounds.width * 0.79, y: self.graphView.bounds.height - self.getBarHeight(country: .br), width: self.graphView.bounds.width * 0.17, height: self.getBarHeight(country: .br))
             
         })
         
     }
     
+    func getBarHeight(country: Country) -> CGFloat {
+        
+        let height = self.graphView.bounds.height
+        
+        switch country {
+        case .us:
+            return (height / 7)
+        case .uk:
+            if let rate = exchangeRates["GBP"] {
+                return (height / 7 * CGFloat(rate))
+            }
+        case .eu:
+            if let rate = exchangeRates["EUR"] {
+                return (height / 7 * CGFloat(rate))
+            }
+        case .jp:
+            if let rate = exchangeRates["JPY"] {
+                return (height / 7 * 5) + (height / 7 * CGFloat(rate - 100) / 10)
+            }
+        case .br:
+            if let rate = exchangeRates["BRL"] {
+                return (height / 7 * CGFloat(rate))
+            }
+        }
+        
+        return 0.0
+    }
+    
 }
 
-
+enum Country {
+    
+    case us, uk, eu, jp, br
+    
+}
 
 
 

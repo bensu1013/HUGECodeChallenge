@@ -10,6 +10,8 @@ import UIKit
 
 class MainViewController: UIViewController {
 
+    
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textField: UITextField!
     
     var exchangeRates: [String : Double] = [:]
@@ -18,6 +20,11 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.tableView.allowsSelection = false
+
+        self.tableView.backgroundView?.backgroundColor = UIColor.clear
+        
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -48,7 +55,7 @@ class MainViewController: UIViewController {
 
                     self.exchangeRates = self.structureAPIData(data: data)
                     
-                    self.textField.text = ""
+                    DispatchQueue.main.async { self.tableView.reloadData() }
                     
                 })
                 
@@ -70,10 +77,14 @@ class MainViewController: UIViewController {
         
         self.textField.text = ""
         
+        self.exchangeRates.removeAll()
+        
+        self.tableView.reloadData()
+        
     }
     
     @IBAction func showGraphButtonAction(_ sender: UIButton) {
-        
+                
         self.performSegue(withIdentifier: "graphViewSegue", sender: nil)
         
     }
@@ -97,34 +108,94 @@ class MainViewController: UIViewController {
         
         if let rates = data["rates"] as? [String : Double] {
             
-            if let gbp = rates["GBP"] {
-                
-                returnData["GBP"] = gbp
-                
-            }
+            if let gbp = rates["GBP"] { returnData["GBP"] = gbp }
             
-            if let eur = rates["EUR"] {
-                
-                returnData["EUR"] = eur
-                
-            }
+            if let eur = rates["EUR"] { returnData["EUR"] = eur }
             
-            if let jpy = rates["JPY"] {
-                
-                returnData["JPY"] = jpy
-                
-            }
+            if let jpy = rates["JPY"] { returnData["JPY"] = jpy }
             
-            if let brl = rates["BRL"] {
-                
-                returnData["BRL"] = brl
-                
-            }
+            if let brl = rates["BRL"] { returnData["BRL"] = brl }
         }
         
         return returnData
         
     }
+    
+}
+
+//MARK: - TableView Delegate Methods
+extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        return self.tableView.bounds.height / 4
+        
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        
+        return 1
+        
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return 4
+        
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        var cell = tableView.dequeueReusableCell(withIdentifier: "exchangeCell", for: indexPath)
+        
+        cell.contentView.layer.borderWidth = 1
+        cell.contentView.layer.borderColor = UIColor.darkGray.cgColor
+        
+        displayContentFor(cell: &cell, index: indexPath.row)
+        
+        return cell
+        
+    }
+    
+    func displayContentFor(cell: inout UITableViewCell, index: Int) {
+        
+        switch index {
+            
+        case 0:
+            
+            cell.textLabel?.text = "GBP"
+            
+            if let rate = exchangeRates["GBP"] { cell.detailTextLabel?.text = "£ \(inputAmount * rate)" }
+            else { cell.detailTextLabel?.text = "" }
+            
+        case 1:
+            
+            cell.textLabel?.text = "EUR"
+            if let rate = exchangeRates["EUR"] { cell.detailTextLabel?.text = "€ \(inputAmount * rate)" }
+            else { cell.detailTextLabel?.text = "" }
+            
+        case 2:
+            
+            cell.textLabel?.text = "JPY"
+            if let rate = exchangeRates["JPY"] { cell.detailTextLabel?.text = "￥ \(inputAmount * rate)" }
+            else { cell.detailTextLabel?.text = "" }
+            
+        case 3:
+            
+            cell.textLabel?.text = "BRL"
+            if let rate = exchangeRates["BRL"] { cell.detailTextLabel?.text = "R$ \(inputAmount * rate)" }
+            else { cell.detailTextLabel?.text = "" }
+            
+        default:
+            
+            break
+            
+        }
+        
+    }
+    
+    
+    
     
 }
 

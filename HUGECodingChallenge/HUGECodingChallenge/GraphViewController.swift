@@ -6,15 +6,16 @@
 //  Copyright © 2016 Benjamin Su. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
-class GraphViewController: UIViewController {
+enum Country {
+    
+    case us, uk, eu, jp, br
 
-    @IBOutlet weak var usdLabel: UILabel!
-    @IBOutlet weak var gbpLabel: UILabel!
-    @IBOutlet weak var eurLabel: UILabel!
-    @IBOutlet weak var jpyLabel: UILabel!
-    @IBOutlet weak var brlLabel: UILabel!
+}
+
+class GraphViewController: UIViewController {
     
     @IBOutlet weak var maxAmountLabel: UILabel!
     @IBOutlet weak var highAmountLabel: UILabel!
@@ -42,15 +43,15 @@ class GraphViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.exchangeAmounts = populateExchangeAmounts(rates: exchangeRates)
-        self.fillTextOfExchangeLabels()
         self.calculateForGraphLabels()
         
-
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         self.setupGraphSubviews()
         self.animateGraphView()
 
@@ -107,17 +108,6 @@ extension GraphViewController {
         
     }
     
-    func fillTextOfExchangeLabels() {
-        
-        usdLabel.text = "\(1.00)"
-        
-        if let text = exchangeRates["GBP"] { gbpLabel.text = "\(text)" }
-        if let text = exchangeRates["EUR"] { eurLabel.text = "\(text)" }
-        if let text = exchangeRates["JPY"] { jpyLabel.text = "\(text)" }
-        if let text = exchangeRates["BRL"] { brlLabel.text = "\(text)" }
-        
-    }
-    
 }
 
 //MARK: - Programmatic subview setup
@@ -167,51 +157,71 @@ extension GraphViewController {
         
         UIView.animate(withDuration: 0.5, animations: {
             
-            self.usdGraph.frame = CGRect(x: self.graphView.bounds.width * 0.03, y: self.graphView.bounds.height - self.getBarHeight(country: .us), width: self.graphView.bounds.width * 0.17, height: self.getBarHeight(country: .us))
-            self.gbpGraph.frame = CGRect(x: self.graphView.bounds.width * 0.22, y: self.graphView.bounds.height - self.getBarHeight(country: .uk), width: self.graphView.bounds.width * 0.17, height: self.getBarHeight(country: .uk))
-            self.eurGraph.frame = CGRect(x: self.graphView.bounds.width * 0.41, y: self.graphView.bounds.height - self.getBarHeight(country: .eu), width: self.graphView.bounds.width * 0.17, height: self.getBarHeight(country: .eu))
-            self.jpyGraph.frame = CGRect(x: self.graphView.bounds.width * 0.60, y: self.graphView.bounds.height - self.getBarHeight(country: .jp), width: self.graphView.bounds.width * 0.17, height: self.getBarHeight(country: .jp))
-            self.brlGraph.frame = CGRect(x: self.graphView.bounds.width * 0.79, y: self.graphView.bounds.height - self.getBarHeight(country: .br), width: self.graphView.bounds.width * 0.17, height: self.getBarHeight(country: .br))
+            self.usdGraph.frame = CGRect(x: self.graphView.bounds.width * 0.03,
+                                         y: self.graphView.bounds.height - self.getBarHeight(country: .us),
+                                         width: self.graphView.bounds.width * 0.17,
+                                         height: self.getBarHeight(country: .us))
+            
+            self.gbpGraph.frame = CGRect(x: self.graphView.bounds.width * 0.22,
+                                         y: self.graphView.bounds.height - self.getBarHeight(country: .uk),
+                                         width: self.graphView.bounds.width * 0.17,
+                                         height: self.getBarHeight(country: .uk))
+            
+            self.eurGraph.frame = CGRect(x: self.graphView.bounds.width * 0.41,
+                                         y: self.graphView.bounds.height - self.getBarHeight(country: .eu),
+                                         width: self.graphView.bounds.width * 0.17,
+                                         height: self.getBarHeight(country: .eu))
+            
+            self.jpyGraph.frame = CGRect(x: self.graphView.bounds.width * 0.60,
+                                         y: self.graphView.bounds.height - self.getBarHeight(country: .jp),
+                                         width: self.graphView.bounds.width * 0.17,
+                                         height: self.getBarHeight(country: .jp))
+            
+            self.brlGraph.frame = CGRect(x: self.graphView.bounds.width * 0.79,
+                                         y: self.graphView.bounds.height - self.getBarHeight(country: .br),
+                                         width: self.graphView.bounds.width * 0.17,
+                                         height: self.getBarHeight(country: .br))
             
         })
         
     }
     
+    //MARK: - Dividing by seven because of how the graphview is set up with its labels
     func getBarHeight(country: Country) -> CGFloat {
         
         let height = self.graphView.bounds.height
         
         switch country {
+            
         case .us:
+            
             return (height / 7)
+            
         case .uk:
-            if let rate = exchangeRates["GBP"] {
-                return (height / 7 * CGFloat(rate))
-            }
+            
+            if let rate = exchangeRates["GBP"] { return (height / 7 * CGFloat(rate)) }
+            
         case .eu:
-            if let rate = exchangeRates["EUR"] {
-                return (height / 7 * CGFloat(rate))
-            }
+            
+            if let rate = exchangeRates["EUR"] { return (height / 7 * CGFloat(rate)) }
+            
         case .jp:
-            if let rate = exchangeRates["JPY"] {
-                return (height / 7 * 5) + (height / 7 * CGFloat(rate - 100) / 10)
-            }
+            
+            if let rate = exchangeRates["JPY"] { return (height / 7 * 5) + (height / 7 * CGFloat(rate - 100) / 10) }
+            
         case .br:
-            if let rate = exchangeRates["BRL"] {
-                return (height / 7 * CGFloat(rate))
-            }
+            
+            if let rate = exchangeRates["BRL"] { return (height / 7 * CGFloat(rate)) }
+            
         }
         
         return 0.0
+        
     }
     
 }
 
-enum Country {
-    
-    case us, uk, eu, jp, br
-    
-}
+
 
 
 

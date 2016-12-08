@@ -15,7 +15,6 @@
 		B5181A8A1DF8A5360016833F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5181A881DF8A5360016833F /* LaunchScreen.storyboard */; };
 		B5181A921DF8A5B00016833F /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5181A911DF8A5B00016833F /* GraphViewController.swift */; };
 		B5181A941DF8ACEB0016833F /* CurrencyAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5181A931DF8ACEB0016833F /* CurrencyAPI.swift */; };
-		B5181A961DF8B7000016833F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5181A951DF8B7000016833F /* Constants.swift */; };
 		FD054FE51DF90C1E0090C291 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD054FE41DF90C1E0090C291 /* Extensions.swift */; };
 		FD054FE71DF90C3C0090C291 /* DataConversionMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD054FE61DF90C3C0090C291 /* DataConversionMethods.swift */; };
 /* End PBXBuildFile section */
@@ -31,7 +30,6 @@
 		B5181A8B1DF8A5360016833F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B5181A911DF8A5B00016833F /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 		B5181A931DF8ACEB0016833F /* CurrencyAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyAPI.swift; sourceTree = "<group>"; };
-		B5181A951DF8B7000016833F /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		FD054FE41DF90C1E0090C291 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		FD054FE61DF90C3C0090C291 /* DataConversionMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataConversionMethods.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -71,7 +69,6 @@
 				B5181A911DF8A5B00016833F /* GraphViewController.swift */,
 				FD054FE61DF90C3C0090C291 /* DataConversionMethods.swift */,
 				B5181A931DF8ACEB0016833F /* CurrencyAPI.swift */,
-				B5181A951DF8B7000016833F /* Constants.swift */,
 				FD054FE41DF90C1E0090C291 /* Extensions.swift */,
 				B5181A801DF8A5360016833F /* Main.storyboard */,
 				B5181A861DF8A5360016833F /* Assets.xcassets */,
@@ -155,7 +152,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5181A7F1DF8A5360016833F /* MainViewController.swift in Sources */,
-				B5181A961DF8B7000016833F /* Constants.swift in Sources */,
 				FD054FE71DF90C3C0090C291 /* DataConversionMethods.swift in Sources */,
 				B5181A941DF8ACEB0016833F /* CurrencyAPI.swift in Sources */,
 				B5181A921DF8A5B00016833F /* GraphViewController.swift in Sources */,

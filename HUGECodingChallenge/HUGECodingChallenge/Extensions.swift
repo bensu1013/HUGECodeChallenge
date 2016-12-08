@@ -7,3 +7,17 @@
 //
 
 import Foundation
+import UIKit
+extension UIColor {
+    
+    static func generateRandomColor() -> UIColor {
+        
+        let r = Float(drand48())
+        let g = Float(drand48())
+        let b = Float(drand48())
+        
+        return UIColor(colorLiteralRed: r, green: g, blue: b, alpha: 1.0)
+        
+    }
+    
+}

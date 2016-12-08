@@ -19,7 +19,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.init(red: 40/255, green: 60/255, blue: 200/255, alpha: 1.0)
+        self.view.backgroundColor = UIColor.generateRandomColor()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

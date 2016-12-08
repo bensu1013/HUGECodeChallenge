@@ -38,54 +38,50 @@ class GraphViewController: UIViewController {
         super.viewDidLoad()
         
         self.exchangeAmounts = populateExchangeAmounts(rates: exchangeRates)
-        self.setupGraphSubviews()
-        self.placeExchangeLabels()
+        self.fillTextOfExchangeLabels()
         self.calculateForGraphLabels()
+        self.setupGraphSubviews()
+
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         self.animateGraphView()
+
     }
     
     @IBAction func doneButtonAction(_ sender: UIButton) {
-        
+
         self.dismiss(animated: true, completion: nil)
         
     }
 
+    
+}
+
+//MARK: - ViewDidLoad Setup Methods
+extension GraphViewController {
+    
     func populateExchangeAmounts(rates: [String : Double]) -> [String : Double] {
         
         var returnData = [String : Double]()
         
-        if let gbp = rates["GBP"] {
-
-            returnData["GBP"] = convertAmount(rate: gbp)
-            
-        }
+        if let gbp = rates["GBP"] { returnData["GBP"] = convertAmount(rate: gbp) }
         
-        if let eur = rates["EUR"] {
-            
-            returnData["EUR"] = convertAmount(rate: eur)
-            
-        }
+        if let eur = rates["EUR"] { returnData["EUR"] = convertAmount(rate: eur) }
         
-        if let jpy = rates["JPY"] {
-            
-            returnData["JPY"] = convertAmount(rate: jpy)
-            
-        }
+        if let jpy = rates["JPY"] { returnData["JPY"] = convertAmount(rate: jpy) }
         
-        if let brl = rates["BRL"] {
-            
-            returnData["BRL"] = convertAmount(rate: brl)
-            
-        }
-    
+        if let brl = rates["BRL"] { returnData["BRL"] = convertAmount(rate: brl) }
+        
         return returnData
         
     }
     
     func convertAmount(rate: Double) -> Double {
         
-        let converted = changeDoubleToMoney(amount: rate * inputAmount)
+        let converted = DataModel.changeDoubleToMoney(amount: rate * inputAmount)
         
         highestExchange = converted > highestExchange ? converted : highestExchange
         
@@ -93,34 +89,29 @@ class GraphViewController: UIViewController {
         
     }
     
-    func changeDoubleToMoney(amount: Double) -> Double {
-        
-        return Double(round(amount * 100) / 100)
-        
-    }
-    
     func calculateForGraphLabels() {
         
         highAmountLabel.text = "\(highestExchange)"
-        midAmountLabel.text = "\(changeDoubleToMoney(amount: highestExchange * 0.05))"
+        midAmountLabel.text = "\(DataModel.changeDoubleToMoney(amount: highestExchange * 0.05))"
         lowAmountLabel.text = "\(inputAmount)"
         zeroAmountLabel.text = "0.00"
         
     }
     
-    func placeExchangeLabels() {
+    func fillTextOfExchangeLabels() {
         
-        usdLabel.text = "\(inputAmount)"
-        gbpLabel.text = "\(exchangeAmounts["GBP"]!)"
-        eurLabel.text = "\(exchangeAmounts["EUR"]!)"
-        jpyLabel.text = "\(exchangeAmounts["JPY"]!)"
-        brlLabel.text = "\(exchangeAmounts["BRL"]!)"
+        usdLabel.text = "\(1.00)"
+        
+        if let text = exchangeRates["GBP"] { gbpLabel.text = "\(text)" }
+        if let text = exchangeRates["EUR"] { eurLabel.text = "\(text)" }
+        if let text = exchangeRates["JPY"] { jpyLabel.text = "\(text)" }
+        if let text = exchangeRates["BRL"] { brlLabel.text = "\(text)" }
         
     }
-
+    
 }
 
-//MARK: - Creating graph subview objects
+//MARK: - Programmatic subview setup
 extension GraphViewController {
     
     func setupGraphSubviews() {
@@ -132,11 +123,11 @@ extension GraphViewController {
 
     func addGraphSubviews() {
         
-        usdGraph.backgroundColor = UIColor.blue
-        gbpGraph.backgroundColor = UIColor.blue
-        eurGraph.backgroundColor = UIColor.blue
-        jpyGraph.backgroundColor = UIColor.blue
-        brlGraph.backgroundColor = UIColor.blue
+        usdGraph.backgroundColor = UIColor.generateRandomColor()
+        gbpGraph.backgroundColor = UIColor.generateRandomColor()
+        eurGraph.backgroundColor = UIColor.generateRandomColor()
+        jpyGraph.backgroundColor = UIColor.generateRandomColor()
+        brlGraph.backgroundColor = UIColor.generateRandomColor()
         graphView.addSubview(usdGraph)
         graphView.addSubview(gbpGraph)
         graphView.addSubview(eurGraph)
@@ -155,25 +146,26 @@ extension GraphViewController {
         
     }
     
+}
+
+//MARK: - Animation methods
+extension GraphViewController {
+    
     func animateGraphView() {
         
         UIView.animate(withDuration: 0.5, animations: {
             
-            self.usdGraph.frame.size.height += self.graphView.bounds.height * 0.33
-//            self.usdGraph.frame.offsetBy(dx: self.graphView.bounds.width * 0.03, dy: self.graphView.bounds.height * 0.33)
-            
+            self.usdGraph.frame = CGRect(x: self.graphView.bounds.width * 0.03, y: self.graphView.bounds.height * 0.66, width: self.graphView.bounds.width * 0.17, height: self.graphView.bounds.height * 0.33)
             self.gbpGraph.frame = CGRect(x: self.graphView.bounds.width * 0.22, y: self.graphView.bounds.height * 0.66, width: self.graphView.bounds.width * 0.17, height: self.graphView.bounds.height * 0.33)
             self.eurGraph.frame = CGRect(x: self.graphView.bounds.width * 0.41, y: self.graphView.bounds.height * 0.66, width: self.graphView.bounds.width * 0.17, height: self.graphView.bounds.height * 0.33)
             self.jpyGraph.frame = CGRect(x: self.graphView.bounds.width * 0.60, y: self.graphView.bounds.height * 0.0, width: self.graphView.bounds.width * 0.17, height: self.graphView.bounds.height)
             self.brlGraph.frame = CGRect(x: self.graphView.bounds.width * 0.79, y: self.graphView.bounds.height * 0.4, width: self.graphView.bounds.width * 0.17, height: self.graphView.bounds.height * 0.6)
             
         })
-       
+        
     }
     
 }
-
-
 
 
 

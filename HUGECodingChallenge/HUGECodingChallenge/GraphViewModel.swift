@@ -51,14 +51,14 @@ extension GraphViewModel {
         
         guard let amount = dataModel.inputAmount else { return }
         
-        aLabel.text = "\(120 * amount)"
-        bLabel.text = "\(110 * amount)"
-        cLabel.text = "\(100 * amount)"
-        dLabel.text = "\(4 * amount)"
-        eLabel.text = "\(3 * amount)"
-        fLabel.text = "\(2 * amount)"
-        gLabel.text = "\(1 * amount)"
-        hLabel.text = "\(0)"
+        aLabel.text = "\((120 * amount).roundToNearestValue(value: 0.01))"
+        bLabel.text = "\((110 * amount).roundToNearestValue(value: 0.01))"
+        cLabel.text = "\((100 * amount).roundToNearestValue(value: 0.01))"
+        dLabel.text = "\((4 * amount).roundToNearestValue(value: 0.01))"
+        eLabel.text = "\((3 * amount).roundToNearestValue(value: 0.01))"
+        fLabel.text = "\((2 * amount).roundToNearestValue(value: 0.01))"
+        gLabel.text = "\((1 * amount).roundToNearestValue(value: 0.01))"
+        hLabel.text = "\(0.00)"
         
     }
     
@@ -116,41 +116,49 @@ extension GraphViewModel {
         aLabel.frame = CGRect(x: 0, y: 0,
                               width: self.bounds.width * 0.2, height: self.bounds.height * 0.113)
         aLabel.textAlignment = .right
+        aLabel.adjustsFontSizeToFitWidth = true
         
         self.addSubview(bLabel)
         bLabel.frame = CGRect(x: 0, y: self.bounds.height * 0.113,
                               width: self.bounds.width * 0.2, height: self.bounds.height * 0.113)
         bLabel.textAlignment = .right
+        bLabel.adjustsFontSizeToFitWidth = true
         
         self.addSubview(cLabel)
         cLabel.frame = CGRect(x: 0, y: self.bounds.height * 0.226,
                               width: self.bounds.width * 0.2, height: self.bounds.height * 0.113)
         cLabel.textAlignment = .right
+        cLabel.adjustsFontSizeToFitWidth = true
         
         self.addSubview(dLabel)
         dLabel.frame = CGRect(x: 0, y: self.bounds.height * 0.339,
                               width: self.bounds.width * 0.2, height: self.bounds.height * 0.113)
         dLabel.textAlignment = .right
+        dLabel.adjustsFontSizeToFitWidth = true
         
         self.addSubview(eLabel)
         eLabel.frame = CGRect(x: 0, y: self.bounds.height * 0.452,
                               width: self.bounds.width * 0.2, height: self.bounds.height * 0.113)
         eLabel.textAlignment = .right
+        eLabel.adjustsFontSizeToFitWidth = true
         
         self.addSubview(fLabel)
         fLabel.frame = CGRect(x: 0, y: self.bounds.height * 0.565,
                               width: self.bounds.width * 0.2, height: self.bounds.height * 0.113)
         fLabel.textAlignment = .right
+        fLabel.adjustsFontSizeToFitWidth = true
         
         self.addSubview(gLabel)
         gLabel.frame = CGRect(x: 0, y: self.bounds.height * 0.678,
                               width: self.bounds.width * 0.2, height: self.bounds.height * 0.113)
         gLabel.textAlignment = .right
+        gLabel.adjustsFontSizeToFitWidth = true
         
         self.addSubview(hLabel)
         hLabel.frame = CGRect(x: 0, y: self.bounds.height * 0.791,
                               width: self.bounds.width * 0.2, height: self.bounds.height * 0.113)
         hLabel.textAlignment = .right
+        hLabel.adjustsFontSizeToFitWidth = true
         
     }
     

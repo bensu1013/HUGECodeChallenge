@@ -110,7 +110,7 @@ extension GraphView {
             
         case .us:
             
-            return (height / 7)
+            if let _ = DataModel.shared.inputAmount { return (height / 7) }
             
         case .uk:
             

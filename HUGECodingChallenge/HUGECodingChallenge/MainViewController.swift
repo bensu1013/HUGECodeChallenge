@@ -48,8 +48,9 @@ class MainViewController: UIViewController {
 
     @IBAction func clearButtonAction(_ sender: UIButton) {
         
-        self.textField.text = ""
+        viewModel.dataModel.clearData()
         
+        self.textField.text = ""
         self.tableView.reloadData()
         
     }

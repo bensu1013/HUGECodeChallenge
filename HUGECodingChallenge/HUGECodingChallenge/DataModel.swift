@@ -88,4 +88,13 @@ final class DataModel {
         }
     }
     
+    //Method used to clear data model
+    func clearData() {
+         inputAmount = nil
+         gbpRate = nil
+         eurRate = nil
+         jpyRate = nil
+         brlRate = nil
+    }
+    
 }

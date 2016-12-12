@@ -42,7 +42,7 @@ class HUGECodingChallengeTests: XCTestCase {
         }
     }
     
-    //MARK: - Testing for conversion with input from user
+    //Testing for conversion with input from user
     func testConvertActionNoInput() {
         
         viewModel.convertInfo(input: "") { (controller) in

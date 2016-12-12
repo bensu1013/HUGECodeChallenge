@@ -33,7 +33,7 @@ struct MainViewControllerModel {
             
             if let amount = Double(input) {
                 
-                dataModel.inputAmount = amount.roundToNearestValue(value: 0.01)
+                dataModel.inputAmount = amount
                 
                 self.dataModel.getRatesFromApi {
                     

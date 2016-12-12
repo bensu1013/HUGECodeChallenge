@@ -29,15 +29,25 @@ final class DataModel {
     var brlRate: Double?
     
     //Method used to fill 'rate' properties with a dictionary
-    func populateRates(rates: [String : Double]) {
+    func populateRates(data: [String : Double]) {
         
-        if let gbp = rates["GBP"] { gbpRate = gbp }
+        if let gbp = data["GBP"] { self.gbpRate = gbp }
+        if let eur = data["EUR"] { self.eurRate = eur }
+        if let jpy = data["JPY"] { self.jpyRate = jpy }
+        if let brl = data["BRL"] { self.brlRate = brl }
         
-        if let eur = rates["EUR"] { eurRate = eur }
+    }
+    
+    //Method used to fill 'rate' properties with a dictionary
+    func getRatesFromApi(with handler: @escaping () -> () ) {
         
-        if let jpy = rates["JPY"] { jpyRate = jpy }
-        
-        if let brl = rates["BRL"] { brlRate = brl }
+        CurrencyAPI.getExchangeRates { (data) in
+            
+            self.populateRates(data: data)
+         
+            handler()
+            
+        }
         
     }
     

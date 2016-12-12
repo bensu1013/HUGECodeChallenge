@@ -27,6 +27,7 @@ struct CurrencyAPI {
             if let jpy = rates["JPY"] { returnData["JPY"] = jpy }
             
             if let brl = rates["BRL"] { returnData["BRL"] = brl }
+            
         }
         
         return returnData

@@ -16,6 +16,7 @@
 		B5181A921DF8A5B00016833F /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5181A911DF8A5B00016833F /* GraphViewController.swift */; };
 		B5181A941DF8ACEB0016833F /* CurrencyAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5181A931DF8ACEB0016833F /* CurrencyAPI.swift */; };
 		B5181AA11DFF1BD70016833F /* HUGECodingChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5181AA01DFF1BD70016833F /* HUGECodingChallengeTests.swift */; };
+		B5181AA91DFF2BE80016833F /* MainViewControllerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5181AA81DFF2BE80016833F /* MainViewControllerModel.swift */; };
 		FD054FE51DF90C1E0090C291 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD054FE41DF90C1E0090C291 /* Extensions.swift */; };
 		FD054FE71DF90C3C0090C291 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD054FE61DF90C3C0090C291 /* DataModel.swift */; };
 /* End PBXBuildFile section */
@@ -44,6 +45,7 @@
 		B5181A9E1DFF1BD70016833F /* HUGECodingChallengeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HUGECodingChallengeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5181AA01DFF1BD70016833F /* HUGECodingChallengeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUGECodingChallengeTests.swift; sourceTree = "<group>"; };
 		B5181AA21DFF1BD70016833F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B5181AA81DFF2BE80016833F /* MainViewControllerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewControllerModel.swift; sourceTree = "<group>"; };
 		FD054FE41DF90C1E0090C291 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		FD054FE61DF90C3C0090C291 /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -89,6 +91,7 @@
 			children = (
 				B5181A7C1DF8A5360016833F /* AppDelegate.swift */,
 				B5181A7E1DF8A5360016833F /* MainViewController.swift */,
+				B5181AA81DFF2BE80016833F /* MainViewControllerModel.swift */,
 				B5181A911DF8A5B00016833F /* GraphViewController.swift */,
 				FD054FE61DF90C3C0090C291 /* DataModel.swift */,
 				B5181A931DF8ACEB0016833F /* CurrencyAPI.swift */,
@@ -219,6 +222,7 @@
 				B5181A941DF8ACEB0016833F /* CurrencyAPI.swift in Sources */,
 				B5181A921DF8A5B00016833F /* GraphViewController.swift in Sources */,
 				B5181A851DF8A5360016833F /* HUGECodingChallenge.xcdatamodeld in Sources */,
+				B5181AA91DFF2BE80016833F /* MainViewControllerModel.swift in Sources */,
 				B5181A7D1DF8A5360016833F /* AppDelegate.swift in Sources */,
 				FD054FE51DF90C1E0090C291 /* Extensions.swift in Sources */,
 			);
@@ -431,6 +435,7 @@
 				B5181AA71DFF1BD70016833F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

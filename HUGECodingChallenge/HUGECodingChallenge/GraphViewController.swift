@@ -19,7 +19,6 @@ class GraphViewController: UIViewController {
     @IBOutlet weak var aAmountLabel: UILabel!
     @IBOutlet weak var lowAmountLabel: UILabel!
     @IBOutlet weak var minAmountLabel: UILabel!
-    
     @IBOutlet weak var graphView: UIView!
     
     var dataModel = DataModel.shared
@@ -59,6 +58,7 @@ class GraphViewController: UIViewController {
 //MARK: - ViewDidLoad Setup Methods
 extension GraphViewController {
     
+    //Setting text to a preset multiplier value.
     func calculateForGraphLabels() {
         
         guard let amount = dataModel.inputAmount else { return }
@@ -86,6 +86,7 @@ extension GraphViewController {
         
     }
 
+    //Adding objects to the subview in addition to any settings required for the objects
     func addGraphSubviews() {
         
         usdGraph.backgroundColor = UIColor.generateRandomColor()
@@ -103,6 +104,7 @@ extension GraphViewController {
         
     }
     
+    //Creating preset bar frames to have a height of 0 so they are not visible to the user.
     func positionSubviews() {
         
         usdGraph.frame = CGRect(x: graphView.bounds.width * 0.03, y: graphView.bounds.height, width: graphView.bounds.width * 0.17, height: 0.0)
@@ -119,32 +121,33 @@ extension GraphViewController {
 //MARK: - Animation methods
 extension GraphViewController {
     
+    //Main graph animation. Animates bars up to their respective exchange rates
     func animateGraphView() {
         
         UIView.animate(withDuration: 0.5, animations: {
             
             self.usdGraph.frame = CGRect(x: self.graphView.bounds.width * 0.03,
-                                         y: self.graphView.bounds.height - self.getBarHeight(country: .us),
+                                         y: self.getBarYStart(country: .us),
                                          width: self.graphView.bounds.width * 0.17,
                                          height: self.getBarHeight(country: .us))
             
             self.gbpGraph.frame = CGRect(x: self.graphView.bounds.width * 0.22,
-                                         y: self.graphView.bounds.height - self.getBarHeight(country: .uk),
+                                         y: self.getBarYStart(country: .uk),
                                          width: self.graphView.bounds.width * 0.17,
                                          height: self.getBarHeight(country: .uk))
             
             self.eurGraph.frame = CGRect(x: self.graphView.bounds.width * 0.41,
-                                         y: self.graphView.bounds.height - self.getBarHeight(country: .eu),
+                                         y: self.getBarYStart(country: .eu),
                                          width: self.graphView.bounds.width * 0.17,
                                          height: self.getBarHeight(country: .eu))
             
             self.jpyGraph.frame = CGRect(x: self.graphView.bounds.width * 0.60,
-                                         y: self.graphView.bounds.height - self.getBarHeight(country: .jp),
+                                         y: self.getBarYStart(country: .jp),
                                          width: self.graphView.bounds.width * 0.17,
                                          height: self.getBarHeight(country: .jp))
             
             self.brlGraph.frame = CGRect(x: self.graphView.bounds.width * 0.79,
-                                         y: self.graphView.bounds.height - self.getBarHeight(country: .br),
+                                         y: self.getBarYStart(country: .br),
                                          width: self.graphView.bounds.width * 0.17,
                                          height: self.getBarHeight(country: .br))
             
@@ -152,7 +155,38 @@ extension GraphViewController {
         
     }
     
-    //MARK: - Dividing by seven because of how the graphview is set up with its labels
+    //Method used to get the starting Y point of the bar in graph for animation purposes.
+    func getBarYStart(country: Country) -> CGFloat {
+        
+        let height = self.graphView.bounds.height
+        
+        switch country {
+            
+        case .us:
+            
+            return height - self.getBarHeight(country: country)
+            
+        case .uk:
+            
+            return height - self.getBarHeight(country: country)
+            
+        case .eu:
+            
+            return height - self.getBarHeight(country: country)
+            
+        case .jp:
+            
+            return height - self.getBarHeight(country: country)
+            
+        case .br:
+            
+            return height - self.getBarHeight(country: country)
+            
+        }
+        
+    }
+    
+    //Method used to get the height of a bar in graph for animation purposes. Dividing by seven because of how the graphview is set up with its labels
     func getBarHeight(country: Country) -> CGFloat {
         
         let height = self.graphView.bounds.height
@@ -186,14 +220,3 @@ extension GraphViewController {
     }
     
 }
-
-
-
-
-
-
-
-
-
-
-

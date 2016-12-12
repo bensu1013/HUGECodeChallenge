@@ -9,7 +9,6 @@
 import UIKit
 
 class MainViewController: UIViewController {
-
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textField: UITextField!
@@ -25,6 +24,7 @@ class MainViewController: UIViewController {
         
     }
     
+    //Checks for input from user in textfield and returns with appropriate alerts if certain requirements aren't met.
     @IBAction func convertButtonAction(_ sender: UIButton) {
         
         self.textField.resignFirstResponder()
@@ -152,7 +152,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             
             cell.textLabel?.text = "BRL"
             
-            if let amount = dataModel.getConvertedAmount(country: .br) { cell.detailTextLabel?.text = "$R \(amount)" }
+            if let amount = dataModel.getConvertedAmount(country: .br) { cell.detailTextLabel?.text = "R$ \(amount)" }
             else { cell.detailTextLabel?.text = "" }
             
         default:

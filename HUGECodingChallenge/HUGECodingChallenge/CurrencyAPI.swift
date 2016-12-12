@@ -35,6 +35,7 @@ struct CurrencyAPI {
     
     //Method to call on api and give back a dictionary through closure
     static func getExchangeRates(handler: @escaping ([String : Double]) -> () ) {
+        
         guard let url = URL(string: urlString) else { return }
         
         let session = URLSession.shared
@@ -42,6 +43,7 @@ struct CurrencyAPI {
         session.dataTask(with: url) { (data, response, error) in
             
             if error == nil {
+                
                 guard let data = data else { return }
                 
                 do {

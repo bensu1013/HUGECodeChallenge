@@ -11,6 +11,7 @@ import UIKit
 
 extension UIColor {
     
+    //Method used for getting random color. The fun is off the charts...
     static func generateRandomColor() -> UIColor {
         
         let r = Float(drand48())
@@ -23,8 +24,8 @@ extension UIColor {
     
 }
 
-
 extension Double {
+    
     //Method used to round the digits of a number to two decimals
     func roundToNearestValue(value: Double) -> Double {
         

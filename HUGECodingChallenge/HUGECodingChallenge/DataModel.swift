@@ -8,12 +8,14 @@
 
 import Foundation
 
+//Enum of countries that the app is dealing with
 enum Country {
     
     case us, uk, eu, jp, br
     
 }
 
+//MARK: - Data structure used to store rates and user input
 final class DataModel {
     
     static let shared = DataModel()
@@ -26,6 +28,7 @@ final class DataModel {
     var jpyRate: Double?
     var brlRate: Double?
     
+    //Method used to fill 'rate' properties with a dictionary
     func populateRates(rates: [String : Double]) {
         
         if let gbp = rates["GBP"] { gbpRate = gbp }
@@ -38,6 +41,7 @@ final class DataModel {
         
     }
     
+    //Method used to get the exchanged amount
     func getConvertedAmount(country: Country) -> Double? {
         
         guard let amount = inputAmount else { return nil }

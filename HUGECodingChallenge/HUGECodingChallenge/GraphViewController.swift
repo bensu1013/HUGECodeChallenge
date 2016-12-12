@@ -9,12 +9,6 @@
 import Foundation
 import UIKit
 
-enum Country {
-    
-    case us, uk, eu, jp, br
-
-}
-
 class GraphViewController: UIViewController {
     
     @IBOutlet weak var maxAmountLabel: UILabel!
@@ -28,6 +22,8 @@ class GraphViewController: UIViewController {
     
     @IBOutlet weak var graphView: UIView!
     
+    var dataModel = DataModel.shared
+    
     let usdGraph = UIView()
     let gbpGraph = UIView()
     let eurGraph = UIView()
@@ -36,15 +32,9 @@ class GraphViewController: UIViewController {
     
     let graphSeperator = UIView()
     
-    var exchangeRates = [String : Double]()
-    var exchangeAmounts = [String : Double]()
-    var inputAmount: Double = 0
-    var highestExchange: Double = 0
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.exchangeAmounts = populateExchangeAmounts(rates: exchangeRates)
         self.calculateForGraphLabels()
         
     }
@@ -69,41 +59,17 @@ class GraphViewController: UIViewController {
 //MARK: - ViewDidLoad Setup Methods
 extension GraphViewController {
     
-    func populateExchangeAmounts(rates: [String : Double]) -> [String : Double] {
-        
-        var returnData = [String : Double]()
-        
-        if let gbp = rates["GBP"] { returnData["GBP"] = convertAmount(rate: gbp) }
-        
-        if let eur = rates["EUR"] { returnData["EUR"] = convertAmount(rate: eur) }
-        
-        if let jpy = rates["JPY"] { returnData["JPY"] = convertAmount(rate: jpy) }
-        
-        if let brl = rates["BRL"] { returnData["BRL"] = convertAmount(rate: brl) }
-        
-        return returnData
-        
-    }
-    
-    func convertAmount(rate: Double) -> Double {
-        
-        let converted = DataModel.changeDoubleToMoney(amount: rate * inputAmount)
-        
-        highestExchange = converted > highestExchange ? converted : highestExchange
-        
-        return converted
-        
-    }
-    
     func calculateForGraphLabels() {
         
-        maxAmountLabel.text = "\(120 * inputAmount)"
-        highAmountLabel.text = "\(110 * inputAmount)"
-        dAmountLabel.text = "\(100 * inputAmount)"
-        cAmountLabel.text = "\(4 * inputAmount)"
-        bAmountLabel.text = "\(3 * inputAmount)"
-        aAmountLabel.text = "\(2 * inputAmount)"
-        lowAmountLabel.text = "\(1 * inputAmount)"
+        guard let amount = dataModel.inputAmount else { return }
+        
+        maxAmountLabel.text = "\(120 * amount)"
+        highAmountLabel.text = "\(110 * amount)"
+        dAmountLabel.text = "\(100 * amount)"
+        cAmountLabel.text = "\(4 * amount)"
+        bAmountLabel.text = "\(3 * amount)"
+        aAmountLabel.text = "\(2 * amount)"
+        lowAmountLabel.text = "\(1 * amount)"
         minAmountLabel.text = "\(0)"
         
     }
@@ -199,19 +165,19 @@ extension GraphViewController {
             
         case .uk:
             
-            if let rate = exchangeRates["GBP"] { return (height / 7 * CGFloat(rate)) }
+            if let rate = dataModel.gbpRate { return (height / 7 * CGFloat(rate)) }
             
         case .eu:
             
-            if let rate = exchangeRates["EUR"] { return (height / 7 * CGFloat(rate)) }
+            if let rate = dataModel.eurRate { return (height / 7 * CGFloat(rate)) }
             
         case .jp:
             
-            if let rate = exchangeRates["JPY"] { return (height / 7 * 5) + (height / 7 * CGFloat(rate - 100) / 10) }
+            if let rate = dataModel.jpyRate { return (height / 7 * 5) + (height / 7 * CGFloat(rate - 100) / 10) }
             
         case .br:
             
-            if let rate = exchangeRates["BRL"] { return (height / 7 * CGFloat(rate)) }
+            if let rate = dataModel.brlRate { return (height / 7 * CGFloat(rate)) }
             
         }
         

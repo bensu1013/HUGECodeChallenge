@@ -14,9 +14,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textField: UITextField!
     
-    var exchangeRates: [String : Double] = [:]
-    
-    var inputAmount: Double = 0
+    var dataModel = DataModel.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,18 +22,6 @@ class MainViewController: UIViewController {
         self.tableView.allowsSelection = false
 
         self.tableView.backgroundView?.backgroundColor = UIColor.clear
-        
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
-        if let dest = segue.destination as? GraphViewController {
-            
-            dest.exchangeRates = self.exchangeRates
-            
-            dest.inputAmount = self.inputAmount
-            
-        }
         
     }
     
@@ -49,11 +35,11 @@ class MainViewController: UIViewController {
             
             if let amount = Double(input) {
                 
-                inputAmount = amount
+                dataModel.inputAmount = amount.roundToNearestValue(value: 0.01)
                 
                 CurrencyAPI.getExchangeRates(handler: { (data) in
 
-                    self.exchangeRates = self.structureAPIData(data: data)
+                    self.dataModel.populateRates(rates: data)
                     
                     DispatchQueue.main.async { self.tableView.reloadData() }
                     
@@ -77,8 +63,6 @@ class MainViewController: UIViewController {
         
         self.textField.text = ""
         
-        self.exchangeRates.removeAll()
-        
         self.tableView.reloadData()
         
     }
@@ -99,25 +83,6 @@ class MainViewController: UIViewController {
         alert.addAction(action)
         
         return alert
-        
-    }
-    
-    func structureAPIData(data: [String : Any]) -> [String : Double] {
-        
-        var returnData: [String : Double] = [:]
-        
-        if let rates = data["rates"] as? [String : Double] {
-            
-            if let gbp = rates["GBP"] { returnData["GBP"] = gbp }
-            
-            if let eur = rates["EUR"] { returnData["EUR"] = eur }
-            
-            if let jpy = rates["JPY"] { returnData["JPY"] = jpy }
-            
-            if let brl = rates["BRL"] { returnData["BRL"] = brl }
-        }
-        
-        return returnData
         
     }
     
@@ -157,6 +122,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         
     }
     
+    //Method used to populate cell text
     func displayContentFor(cell: inout UITableViewCell, index: Int) {
         
         switch index {
@@ -165,25 +131,28 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             
             cell.textLabel?.text = "GBP"
             
-            if let rate = exchangeRates["GBP"] { cell.detailTextLabel?.text = "£ \(inputAmount * rate)" }
+            if let amount = dataModel.getConvertedAmount(country: .uk) { cell.detailTextLabel?.text = "£ \(amount)" }
             else { cell.detailTextLabel?.text = "" }
             
         case 1:
             
             cell.textLabel?.text = "EUR"
-            if let rate = exchangeRates["EUR"] { cell.detailTextLabel?.text = "€ \(inputAmount * rate)" }
+            
+            if let amount = dataModel.getConvertedAmount(country: .eu) { cell.detailTextLabel?.text = "€ \(amount)" }
             else { cell.detailTextLabel?.text = "" }
             
         case 2:
             
             cell.textLabel?.text = "JPY"
-            if let rate = exchangeRates["JPY"] { cell.detailTextLabel?.text = "￥ \(inputAmount * rate)" }
+            
+            if let amount = dataModel.getConvertedAmount(country: .jp) { cell.detailTextLabel?.text = "￥ \(amount)" }
             else { cell.detailTextLabel?.text = "" }
             
         case 3:
             
             cell.textLabel?.text = "BRL"
-            if let rate = exchangeRates["BRL"] { cell.detailTextLabel?.text = "R$ \(inputAmount * rate)" }
+            
+            if let amount = dataModel.getConvertedAmount(country: .br) { cell.detailTextLabel?.text = "$R \(amount)" }
             else { cell.detailTextLabel?.text = "" }
             
         default:
@@ -194,12 +163,4 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         
     }
     
-    
-    
-    
 }
-
-
-
-
-

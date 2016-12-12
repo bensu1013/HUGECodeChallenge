@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+
 extension UIColor {
     
     static func generateRandomColor() -> UIColor {
@@ -20,4 +21,18 @@ extension UIColor {
         
     }
     
+}
+
+
+extension Double {
+    //Method used to round the digits of a number to two decimals
+    func roundToNearestValue(value: Double) -> Double {
+        
+        let remainder = self.truncatingRemainder(dividingBy: value)
+        let shouldRoundUp = remainder >= value/2 ? true : false
+        let multiple = floor(self / value)
+        let returnValue = !shouldRoundUp ? value * multiple : value * multiple + value
+        return returnValue
+        
+    }
 }
